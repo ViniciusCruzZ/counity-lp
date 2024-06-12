@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+:root {
+    --primary-color: #0f121a;
+    --special-color: #3377EF;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+.container {
+    margin: auto;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    padding: 0 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background-color: var(--primary-color);
+}
+
+header h1 {
+    color: #ffffff;
+}
+
+header h1 span {
+    color: var(--special-color);
+}
+
+/* header img {
+    width: 190px;
+} */
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    font-weight: 700;
+}
+
+nav ul li a {
+    cursor: pointer;
+    transition: ease-in .2s;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+nav ul li a:hover {
+    color: var(--special-color);
+}
+
+#sec-cta {
+    padding: 150px;
+    background-image: url('https://www.bdsdatasolution.com.br/wp-content/themes/pro-child/assets/img/bg-home-top-02.jpg');
+    background-position: center top;
+    background-size: cover;
+    height: 600px;
+}
+
+.cta-content {
+    width: 600px;
+}
+
+.cta-content h1 {
+    color: #ffffff;
+    font-size: 36px;
+}
+
+.cta-content h3 {
+    color: #dee5ff;
+    margin: 50px 0;
+}
+
+.cta-content a {
+    color: #ffffff;
+    background-color: #ff0000;
+    border-radius: 25px;
+    padding: 15px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: ease-in .2s;
+}
+
+.cta-content a:hover {
+    background-color: #520101;
+}
