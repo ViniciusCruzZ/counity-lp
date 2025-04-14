@@ -8,14 +8,149 @@
    <link rel="shortcut icon" href="assets/conference/favicon.ico" type="image/x-icon">
   <title>CoUnity - Landing Page</title>
   <meta name="description" content="Um espaço unificado para mentes que não tem limites.">
-  <meta name="keywords" content="TECH COUNITY STARTUP ENTERPRISE">
+  <meta name="keywords" content="TECH COUNTRY STARTUP ENTERPRISE">
   <!-- CSS dependencies -->
   <link rel="stylesheet" href="aquamarine.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
   <!-- Script: Make my navbar transparent when the document is scrolled to top -->
   <script src="js/navbar-ontop.js"></script>
   <!-- Script: Animated entrance -->
   <script src="js/animate-in.js"></script>
+  <style>
+    /* Estilos para os popups e modais */
+    .member-card {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .member-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .member-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      max-width: 300px;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+    
+    .member-card:hover .member-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-member {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      position: relative;
+      animation: modalopen 0.4s;
+    }
+    
+    @keyframes modalopen {
+      from {opacity: 0; transform: translateY(-50px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    .close-modal {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .filter-buttons {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .filter-buttons .btn {
+      margin: 5px;
+    }
+    
+    .filter-buttons .btn.active {
+      background-color: #007bff;
+      color: white;
+    }
+    
+    /* Estilos para o carrossel */
+    .logo-carousel {
+      padding: 20px 50px;
+      margin: 30px 0;
+    }
+    
+    .logo-carousel img {
+      height: 80px;
+      object-fit: contain;
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+    
+    .slick-prev, .slick-next {
+      font-size: 24px;
+    }
+    
+    /* Destacar seção de contato */
+    .contact-section {
+      background-color: #16a6b6;
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-section h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .contact-section .form-control {
+      border-radius: 5px;
+      margin-bottom: 15px;
+      padding: 12px;
+    }
+    
+    .contact-section .btn {
+      padding: 10px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: white;
+      color: #16a6b6;
+      border: none;
+    }
+  </style>
 </head>
 
 <body class="text-center">
@@ -25,7 +160,7 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
       <div class="collapse navbar-collapse justify-content-center" id="navbar2SupportedContent">
         <ul class="navbar-nav">
-          <li class="nav-item mx-2" style="">
+          <li class="nav-item mx-2">
             <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item mx-2">
@@ -33,6 +168,12 @@
           </li>
           <li class="nav-item mx-2">
             <a class="nav-link" href="#schedule">Missão</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#partners">Parceiros</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#contact">Contato</a>
           </li>
         </ul>
         <a class="btn navbar-btn mx-2 text-white btn-outline-light" href="#register">Saiba Mais</a>
@@ -66,182 +207,240 @@
   </div>
   <!-- Speakers -->
   <div class="py-5 bg-light" id="speakers">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-md-12">
           <h1>Membros</h1>
         </div>
       </div>
+      
+      <!-- Filtros para membros -->
       <div class="row">
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/1.png" class="center-block img-fluid my-3 img-thumbnail" height="300" width="160">
-            <h3 class="mb-0"><b>Thiago Lapenda</b></h3>
-            <p class="text-muted">LAPENDA ADV</p>
-          </a>
+        <div class="col-md-12">
+          <div class="filter-buttons">
+            <button class="btn btn-outline-primary active" data-filter="all">Todos</button>
+            <button class="btn btn-outline-primary" data-filter="juridico">Jurídico</button>
+            <button class="btn btn-outline-primary" data-filter="consultoria">Consultoria</button>
+            <button class="btn btn-outline-primary" data-filter="financeiro">Financeiro</button>
+            <button class="btn btn-outline-primary" data-filter="tecnologia">Tecnologia</button>
+          </div>
         </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/2.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Leonardo Coelho</b></h3>
-            <p class="text-muted">LEONARDO COÉLHO ADVOCACIA</p>
-          </a>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="juridico">
+          <div class="member-tooltip">
+            Advogado especializado em direito empresarial e inovação, com mais de 10 anos de experiência.
+          </div>
+          <img src="assets/conference/1.png" class="center-block img-fluid my-3 img-thumbnail" height="300" width="160">
+          <h3 class="mb-0"><b>Thiago Lapenda</b></h3>
+          <p class="text-muted">LAPENDA ADV</p>
         </div>
-        <div class="col-6 col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/3.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Gustavo Ventura</b></h3>
-            <p class="text-muted">VENTURA TORRES ADVOGADOS</p>
-          </a>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="juridico">
+          <div class="member-tooltip">
+            Especialista em direito digital e novas tecnologias, ajudando empresas a navegar no ambiente digital.
+          </div>
+          <img src="assets/conference/2.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Leonardo Coelho</b></h3>
+          <p class="text-muted">LEONARDO COÉLHO ADVOCACIA</p>
         </div>
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/4.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Eduardo Paurá</b></h3>
-            <p class="text-muted">PAURÁ ADVOCACIA</p>
-          </a>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="juridico">
+          <div class="member-tooltip">
+            Advogado com forte atuação em direito tributário e empresarial, ajudando empresas a otimizar sua estrutura fiscal.
+          </div>
+          <img src="assets/conference/3.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Gustavo Ventura</b></h3>
+          <p class="text-muted">VENTURA TORRES ADVOGADOS</p>
         </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/5.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Marcelo Guerra</b></h3>
-            <p class="text-muted">BKR</p>
-          </a>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="juridico">
+          <div class="member-tooltip">
+            Especialista em direito empresarial e trabalhista, com foco em startups e empresas em crescimento.
+          </div>
+          <img src="assets/conference/4.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Eduardo Paurá</b></h3>
+          <p class="text-muted">PAURÁ ADVOCACIA</p>
         </div>
-        <div class="col-6 mask col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/6.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Alberico Moraes</b></h3>
-            <p class="text-muted">DATACONTE</p>
-          </a>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Contador e consultor financeiro com experiência em gestão fiscal e planejamento tributário para empresas.
+          </div>
+          <img src="assets/conference/5.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Marcelo Guerra</b></h3>
+          <p class="text-muted">BKR</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="tecnologia">
+          <div class="member-tooltip">
+            Expert em soluções de dados e inteligência de negócios, ajudando empresas a tomar decisões baseadas em dados.
+          </div>
+          <img src="assets/conference/6.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Alberico Moraes</b></h3>
+          <p class="text-muted">DATACONTE</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultor em estratégias de crescimento empresarial e desenvolvimento de negócios inovadores.
+          </div>
+          <img src="assets/conference/7.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Felipe Maçano</b></h3>
+          <p class="text-muted">GROW</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Especialista em desenvolvimento organizacional e gestão de mudanças para empresas em transformação.
+          </div>
+          <img src="assets/conference/8.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Horácio Forte</b></h3>
+          <p class="text-muted">H FORTE</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Especialista em investimentos e planejamento financeiro para empresas em expansão.
+          </div>
+          <img src="assets/conference/9.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Sergio Exeni</b></h3>
+          <p class="text-muted">2PAR</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultor estratégico com foco em desenvolvimento de negócios e planejamento para resultados.
+          </div>
+          <img src="assets/conference/10.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Leonardo Farias</b></h3>
+          <p class="text-muted">LEONARDO FARIAS &amp; CONSULTORIAS</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Especialista em consultoria empresarial com ênfase em processos de gestão e eficiência operacional.
+          </div>
+          <img src="assets/conference/11.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>João Fábio Holanda</b></h3>
+          <p class="text-muted">JFH CONSULTORIA</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Expert em gestão financeira e investimentos, auxiliando empresas na otimização de recursos e capital.
+          </div>
+          <img src="assets/conference/12.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Jullius Menino</b></h3>
+          <p class="text-muted">AURUS</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultora de imagem e comunicação empresarial, ajudando profissionais e empresas a melhorar sua apresentação.
+          </div>
+          <img src="assets/conference/13.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Roseane Faeco</b></h3>
+          <p class="text-muted">ROSEANE FAECO</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Especialista em planejamento financeiro e orçamentário para empresas de diversos portes.
+          </div>
+          <img src="assets/conference/14.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Sergio Trindade</b></h3>
+          <p class="text-muted">FIPLAN</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultor especializado em compliance e governança corporativa para empresas que buscam excelência.
+          </div>
+          <img src="assets/conference/15.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Renato Carvalho</b></h3>
+          <p class="text-muted">COMPLY CONSULTORIA</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultor de gestão empresarial com foco em pequenas e médias empresas em busca de crescimento estruturado.
+          </div>
+          <img src="assets/conference/16.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Cícero Rocha</b></h3>
+          <p class="text-muted">EMPRESARIAR CONSULTORIA</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="tecnologia">
+          <div class="member-tooltip">
+            Especialista em tecnologia e transformação digital para empresas que desejam inovar e modernizar processos.
+          </div>
+          <img src="assets/conference/17.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Orestis Stamatiou</b></h3>
+          <p class="text-muted">CONSULTECH</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="tecnologia">
+          <div class="member-tooltip">
+            Expert em business intelligence e análise de dados para tomada de decisões estratégicas.
+          </div>
+          <img src="assets/conference/18.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>André Guerra</b></h3>
+          <p class="text-muted">MaxBI</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="consultoria">
+          <div class="member-tooltip">
+            Consultor de gestão e desenvolvimento de competências para líderes e equipes de alta performance.
+          </div>
+          <img src="assets/conference/19.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Tibério César</b></h3>
+          <p class="text-muted">COMPETENCE</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Especialista em planejamento financeiro e estruturação de investimentos para empresas em crescimento.
+          </div>
+          <img src="assets/conference/20.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Paulo Tavares</b></h3>
+          <p class="text-muted">2PAR</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 member-card" data-category="financeiro">
+          <div class="member-tooltip">
+            Professor e especialista em economia e finanças, trazendo perspectivas acadêmicas para o mundo dos negócios.
+          </div>
+          <img src="assets/conference/21.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
+          <h3 class="mb-0"><b>Luiz Maia Filho</b></h3>
+          <p class="text-muted">Professor de Economia e Finanças UFRPE</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="py-5 bg-light" id="speakers">
-    <div class="container-fluid">
+  
+  <!-- Modais para os membros -->
+  <div id="memberModal" class="modal-member">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
       <div class="row">
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/7.png" class="center-block img-fluid my-3 img-thumbnail" height="300" width="160">
-            <h3 class="mb-0"><b>Felipe Maçano</b></h3>
-            <p class="text-muted">GROW</p>
-          </a>
+        <div class="col-md-4 text-center">
+          <img id="modalMemberImage" src="" class="img-fluid img-thumbnail mb-3" style="max-height: 200px;">
+          <h3 id="modalMemberName" class="mb-1"></h3>
+          <p id="modalMemberCompany" class="text-muted"></p>
         </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/8.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Horácio Forte</b></h3>
-            <p class="text-muted">H FORTE</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/9.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Sergio Exeni</b></h3>
-            <p class="text-muted">2PAR</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/10.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Leonardo Farias</b></h3>
-            <p class="text-muted">LEONARDO FARIAS &amp; CONSULTORIAS</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/11.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>João Fábio Holanda</b></h3>
-            <p class="text-muted">JFH CONSULTORIA</p>
-          </a>
-        </div>
-        <div class="col-6 mask col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/12.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Jullius Menino</b></h3>
-            <p class="text-muted">AURUS</p>
-          </a>
+        <div class="col-md-8">
+          <h4>Perfil Profissional</h4>
+          <p id="modalMemberBio"></p>
+          <h4>Especializações</h4>
+          <ul id="modalMemberSpecialties"></ul>
         </div>
       </div>
     </div>
   </div>
-  <div class="py-5 bg-light" id="speakers">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/13.png" class="center-block img-fluid my-3 img-thumbnail" height="300" width="160">
-            <h3 class="mb-0"><b>Roseane Faeco</b></h3>
-            <p class="text-muted">ROSEANE FAECO</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/14.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Sergio Trindade</b></h3>
-            <p class="text-muted">FIPLAN</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/15.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Renato Carvalho</b></h3>
-            <p class="text-muted">COMPLY CONSULTORIA</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/16.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Cícero Rocha</b></h3>
-            <p class="text-muted">EMPRESARIAR CONSULTORIA</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/17.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Orestis Stamatiou</b></h3>
-            <p class="text-muted">CONSULTECH</p>
-          </a>
-        </div>
-        <div class="col-6 mask col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/18.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>André Guerra</b></h3>
-            <p class="text-muted">MaxBI</p>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="py-5 bg-light" id="speakers">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-6 col-lg-4 animate-in-left">
-          <a href="#">
-            <img src="assets/conference/19.png" class="center-block img-fluid my-3 img-thumbnail" height="300" width="160">
-            <h3 class="mb-0"><b>Tibério César</b></h3>
-            <p class="text-muted">COMPETENCE</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4">
-          <a href="#">
-            <img src="assets/conference/20.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Paulo Tavares</b></h3>
-            <p class="text-muted">2PAR</p>
-          </a>
-        </div>
-        <div class="col-6 col-lg-4 animate-in-right">
-          <a href="#">
-            <img src="assets/conference/21.png" class="center-block img-fluid my-3 img-thumbnail" width="160">
-            <h3 class="mb-0"><b>Luiz Maia Filho</b></h3>
-            <p class="text-muted">Professor de Economia e Finacas UFRPE</p>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Schedule -->
+  
+  <!-- Schedule/Missão -->
   <div class="py-5 section-parallax" style="background-image: url(&quot;assets/conference/schedule.jpg&quot;);" id="schedule">
     <div class="container section-aquamarine">
       <div class="row">
@@ -256,21 +455,31 @@
       </div>
     </div>
   </div>
-  <!-- Sponsor logos -->
-  <div class="py-5 section bg-faded bg-light">
+  
+  <!-- Carrossel de logos de parceiros -->
+  <div class="py-5 section bg-light" id="partners">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="mb-4"><b>Junte-se a Nós </b></h1>
+          <h1 class="mb-4"><b>Nossos Parceiros</b></h1>
+          <p>Empresas que confiam e colaboram com a CoUnity para promover inovação e excelência nos negócios.</p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <p>Se você é um líder em tecnologia e está buscando uma oportunidade de colaborar com outros visionários, CoUnity é o lugar certo para você. Participe dos nossos eventos, compartilhe suas ideias e faça parte de uma comunidade que está moldando o futuro da tecnologia. </p>
+          <div class="logo-carousel">
+            <div><img src="assets/conference/logo_1.png" alt="Logo Parceiro 1" class="img-fluid"></div>
+            <div><img src="assets/conference/logo_2.png" alt="Logo Parceiro 2" class="img-fluid"></div>
+            <div><img src="assets/conference/logo_3.png" alt="Logo Parceiro 3" class="img-fluid"></div>
+            <div><img src="assets/conference/logo_4.png" alt="Logo Parceiro 4" class="img-fluid"></div>
+            <div><img src="assets/conference/logo_1.png" alt="Logo Parceiro 5" class="img-fluid"></div>
+            <div><img src="assets/conference/logo_2.png" alt="Logo Parceiro 6" class="img-fluid"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
   <!-- Call to action -->
   <div class="py-5 section-aquamarine" id="register">
     <div class="container">
@@ -287,50 +496,166 @@
       </div>
     </div>
   </div>
+  
   <!-- Footer -->
-  <footer class="text-md-left text-center p-4 bg-dark text-light">
+  <footer class="text-md-left text-center p-4 bg-dark text-light" id="contact">
     <div class="container">
       <div class="row">
         <div class="my-3 col-lg-4 col-md-6">
           <h3>Conferência CoUnity</h3>
-          <p class="text-muted">Julho 24,2024</p>
-          <p class="my-3">Espaco CoWorking, Recife - PE</p>
+          <p class="text-muted">Julho 24, 2024</p>
+          <p class="my-3">Espaço CoWorking, Recife - PE</p>
           <a class="btn btn-lg btn-primary" href="#">REGISTRAR AGORA</a>
         </div>
-        <div class="my-3 col-lg-4 col-md-6">
-          <h3>Entre em contato</h3>
-          <form>
-            <fieldset class="form-group my-3">
-              <input type="email" class="form-control" id="Input Email" placeholder="Email"> </fieldset>
-            <fieldset class="form-group my-3">
-              <input type="message" class="form-control" id="Input Message" placeholder="Message"> </fieldset>
-            <button type="submit" class="btn btn-outline-primary">Enviar</button>
-          </form>
+        <div class="my-3 col-lg-5 col-md-6">
+          <div class="contact-section">
+            <h3>Entre em contato</h3>
+            <form>
+              <fieldset class="form-group">
+                <input type="text" class="form-control" placeholder="Nome Completo">
+              </fieldset>
+              <fieldset class="form-group">
+                <input type="email" class="form-control" id="Input Email" placeholder="Email">
+              </fieldset>
+              <fieldset class="form-group">
+                <input type="tel" class="form-control" placeholder="Telefone">
+              </fieldset>
+              <fieldset class="form-group">
+                <textarea class="form-control" id="Input Message" placeholder="Mensagem" rows="3"></textarea>
+              </fieldset>
+              <button type="submit" class="btn btn-light">Enviar Mensagem</button>
+            </form>
+          </div>
         </div>
-        <div class="col-lg-1"> </div>
         <div class="my-3 col-lg-3">
           <h3>Siga-nós</h3>
-          <a href="https://www.facebook.com" target="blank"><i class="fa fa-facebook-square text-muted fa-3x m-2"></i></a>
-          <a href="https://www.instagram.com" target="blank"><i class="fa fa-3x fa-instagram text-muted m-2"></i></a>
-          <a href="https://twitter.com" target="blank"><i class="fa fa-3x fa-twitter m-2 text-muted"></i></a>
-          <a href="https://plus.google.com" target="blank"><i class="fa fa-3x fa-google-plus-official text-muted m-2"></i></a>
-          <a href="https://pinterest.com" target="blank"><i class="fa fa-3x text-muted fa-pinterest-p m-2"></i></a>
-          <a href="https://www.youtube.com" target="blank"><i class="fa fa-3x text-muted fa-youtube-play m-2"></i></a>
+          <a href="https://www.linkedin.com/company/counity-pe/?viewAsMember=true" target="blank"><i class="fa fa-linkedin-square text-muted fa-3x m-2"></i></a>
+          <a href="https://www.instagram.com/sigacounity/" target="blank"><i class="fa fa-3x fa-instagram text-muted m-2"></i></a>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <p class="text-muted">© Copyright 2024 CoUnity- All rights reserved. </p>
+          <p class="text-muted">© Copyright 2024 CoUnity - All rights reserved. </p>
         </div>
       </div>
     </div>
   </footer>
+  
   <!-- JavaScript dependencies -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
   <!-- Script: Smooth scrolling between anchors in the same page -->
   <script src="js/smooth-scroll.js"></script>
+  
+  <script>
+    // Configuração do carrossel de logos
+    $(document).ready(function(){
+      $('.logo-carousel').slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: true,
+        dots: false,
+        pauseOnHover: true,
+        responsive: [{
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3
+          }
+        }, {
+          breakpoint: 520,
+          settings: {
+            slidesToShow: 2
+          }
+        }]
+      });
+      
+      // Dados dos membros (bio completa e especializações)
+      const membersData = {
+        "Thiago Lapenda": {
+          bio: "Advogado especializado em direito empresarial com mais de 10 anos de experiência. Atua com foco em inovação e tecnologia, ajudando empresas a navegar pelo ambiente regulatório digital.",
+          specialties: ["Direito Empresarial", "Contratos Tecnológicos", "Propriedade Intelectual", "Proteção de Dados"]
+        },
+        "Leonardo Coelho": {
+          bio: "Especialista em direito digital, atua há 8 anos no mercado jurídico com foco em novas tecnologias e startups. Tem vasta experiência em contratos digitais e conformidade regulatória.",
+          specialties: ["Direito Digital", "Propriedade Intelectual", "Startups", "Compliance Digital"]
+        },
+        "Gustavo Ventura": {
+          bio: "Advogado com forte atuação em direito tributário e empresarial. Auxilia empresas a otimizar sua estrutura fiscal e a navegar por questões tributárias complexas.",
+          specialties: ["Direito Tributário", "Planejamento Fiscal", "Contencioso Tributário", "Reestruturação Empresarial"]
+        },
+        // Dados para os demais membros seguiriam o mesmo padrão
+      };
+      
+      // Funcionalidade de modal para membros
+      const modal = document.getElementById("memberModal");
+      const closeBtn = document.getElementsByClassName("close-modal")[0];
+      
+      // Quando clicamos em um membro
+      $('.member-card').click(function() {
+        const name = $(this).find('h3 b').text();
+        const company = $(this).find('p').text();
+        const imgSrc = $(this).find('img').attr('src');
+        
+        // Preenche o modal com os dados do membro
+        $('#modalMemberImage').attr('src', imgSrc);
+        $('#modalMemberName').text(name);
+        $('#modalMemberCompany').text(company);
+        
+        // Se temos dados detalhados para este membro
+        if(membersData[name]) {
+          $('#modalMemberBio').text(membersData[name].bio);
+          
+          // Limpa e preenche as especializações
+          const specialtiesList = $('#modalMemberSpecialties');
+          specialtiesList.empty();
+          
+          membersData[name].specialties.forEach(specialty => {
+            specialtiesList.append(`<li>${specialty}</li>`);
+          });
+        } else {
+          // Dados genéricos caso não tenha informações específicas
+          $('#modalMemberBio').text("Profissional experiente e membro ativo da CoUnity, contribuindo com sua expertise para nossa comunidade.");
+          $('#modalMemberSpecialties').html("<li>Consultoria Especializada</li><li>Networking Estratégico</li><li>Desenvolvimento de Negócios</li>");
+        }
+        
+        // Exibe o modal
+        modal.style.display = "block";
+      });
+      
+      // Fecha o modal ao clicar no X
+      closeBtn.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // Fecha o modal ao clicar fora dele
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      
+      // Filtro dos membros
+      $('.filter-buttons .btn').click(function() {
+        const filter = $(this).data('filter');
+        
+        // Destaca o botão ativo
+        $('.filter-buttons .btn').removeClass('active');
+        $(this).addClass('active');
+        
+        // Mostra/esconde os membros conforme o filtro
+        if(filter === 'all') {
+          $('.member-card').show();
+        } else {
+          $('.member-card').hide();
+          $(`.member-card[data-category="${filter}"]`).show();
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
